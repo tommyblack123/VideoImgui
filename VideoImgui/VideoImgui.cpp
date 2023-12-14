@@ -8,6 +8,7 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "StringUtil.h"
 
 
 GLFWwindow* gMainWindow = nullptr;
@@ -31,11 +32,20 @@ int main()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext(nullptr);
     auto& io = ImGui::GetIO();
-    ImGui::StyleColorsDark();
+    io.Fonts->AddFontFromFileTTF("c:/windows/fonts/msyh.ttc", 18.0f, nullptr, io.Fonts->GetGlyphRangesChineseFull());
+
+
+    ImGui::StyleColorsClassic();
 
     ImGui_ImplGlfw_InitForOpenGL(gMainWindow, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
+
+    char Textbuf[255] = { "fuck Textbuf" };
+
+    std::string TextString = "";
+
+    ImVec4 color;
 
     while (glfwWindowShouldClose(gMainWindow) == false)
     {
@@ -49,11 +59,46 @@ int main()
 
         ImGui::Begin("fuckyou");
 
+        
+        ImGui::Text(StringUtil::GBKtoUTF8(TextString).data());
+
         if (ImGui::Button("my button"))
         {
+            TextString = "我点了你";
             printf("clicked my button\r\n");
         }
 
+        ImGui::InputText("Test Txt Box", Textbuf, IM_ARRAYSIZE(Textbuf));
+
+		if (ImGui::BeginListBox("test List Box"))
+		{
+			for (size_t i = 0; i < 100; i++)
+			{
+				if (ImGui::Selectable(std::to_string(i).c_str()))
+				{
+                    TextString = std::to_string(i);
+				}
+			}
+			ImGui::EndListBox();
+		}
+
+
+
+		{
+			// Using the _simplified_ one-liner Combo() api here
+			// See "Combo" section for examples of how to use the more flexible BeginCombo()/EndCombo() api.
+			const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIIIIII", "JJJJ", "KKKKKKK" };
+			static int item_current = 0;
+            if (ImGui::Combo("combo", &item_current, items, IM_ARRAYSIZE(items)))
+            {
+
+                printf("combox index :%d\r\n", item_current);
+            }
+
+		}
+
+
+        ImGui::ColorEdit4("Test Color", (float*)&color);
 
         ImGui::End();
 

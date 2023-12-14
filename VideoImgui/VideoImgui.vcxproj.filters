@@ -16,6 +16,9 @@
     <Filter Include="ImguiSrc">
       <UniqueIdentifier>{3db6d1c2-c18b-452f-8a80-9f8a24824a1a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{fbfa3a4c-945d-48c7-91c0-e60ffa5ea80e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VideoImgui.cpp">
@@ -41,6 +44,9 @@
     </ClCompile>
     <ClCompile Include="ImguiSrc\imgui_widgets.cpp">
       <Filter>ImguiSrc</Filter>
+    </ClCompile>
+    <ClCompile Include="common\StringUtil.cpp">
+      <Filter>common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="ImguiSrc\imstb_truetype.h">
       <Filter>ImguiSrc</Filter>
+    </ClInclude>
+    <ClInclude Include="common\StringUtil.h">
+      <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

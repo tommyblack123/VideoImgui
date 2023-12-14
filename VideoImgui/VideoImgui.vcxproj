@@ -141,7 +141,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\\imguisrc;.\Api\glfw\include;.\Api\glew;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\\imguisrc;.\Api\glfw\include;.\Api\glew;.\common</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="common\StringUtil.cpp" />
     <ClCompile Include="ImguiSrc\imgui.cpp" />
     <ClCompile Include="ImguiSrc\imgui_demo.cpp" />
     <ClCompile Include="ImguiSrc\imgui_draw.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="VideoImgui.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common\StringUtil.h" />
     <ClInclude Include="ImguiSrc\imconfig.h" />
     <ClInclude Include="ImguiSrc\imgui.h" />
     <ClInclude Include="ImguiSrc\imgui_impl_glfw.h" />
