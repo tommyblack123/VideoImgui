@@ -48,6 +48,9 @@
     <ClCompile Include="common\StringUtil.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="GUI.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImguiSrc\imconfig.h">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="common\StringUtil.h">
       <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

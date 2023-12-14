@@ -9,7 +9,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "StringUtil.h"
-
+#include "GUI.h"
 
 GLFWwindow* gMainWindow = nullptr;
 
@@ -35,17 +35,28 @@ int main()
     io.Fonts->AddFontFromFileTTF("c:/windows/fonts/msyh.ttc", 18.0f, nullptr, io.Fonts->GetGlyphRangesChineseFull());
 
 
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.ConfigFlags |= ImGuiViewportFlags_NoDecoration;
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+    io.ConfigFlags |= ImGuiCol_DockingEmptyBg;
+
+
+    auto& wndstyle = ImGui::GetStyle();
+    wndstyle.WindowRounding = 4;
+    wndstyle.FrameRounding = 4;
+    wndstyle.GrabRounding = 3;
+    wndstyle.ScrollbarSize = 7;
+    wndstyle.ScrollbarRounding = 0;
+
+	ImVec4* colors = wndstyle.Colors;
+	colors[ImGuiCol_FrameBg] = ImVec4(0.83f, 0.86f, 0.66f, 0.54f);
+	colors[ImGuiCol_MenuBarBg] = ImVec4(0.58f, 0.38f, 0.38f, 1.00f);
+
     ImGui::StyleColorsClassic();
 
     ImGui_ImplGlfw_InitForOpenGL(gMainWindow, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
-
-    char Textbuf[255] = { "fuck Textbuf" };
-
-    std::string TextString = "";
-
-    ImVec4 color;
 
     while (glfwWindowShouldClose(gMainWindow) == false)
     {
@@ -56,58 +67,25 @@ int main()
         ImGui_ImplGlfw_NewFrame();
 
         ImGui::NewFrame();
-
-        ImGui::Begin("fuckyou");
-
-        
-        ImGui::Text(StringUtil::GBKtoUTF8(TextString).data());
-
-        if (ImGui::Button("my button"))
-        {
-            TextString = "我点了你";
-            printf("clicked my button\r\n");
-        }
-
-        ImGui::InputText("Test Txt Box", Textbuf, IM_ARRAYSIZE(Textbuf));
-
-		if (ImGui::BeginListBox("test List Box"))
-		{
-			for (size_t i = 0; i < 100; i++)
-			{
-				if (ImGui::Selectable(std::to_string(i).c_str()))
-				{
-                    TextString = std::to_string(i);
-				}
-			}
-			ImGui::EndListBox();
-		}
-
-
-
-		{
-			// Using the _simplified_ one-liner Combo() api here
-			// See "Combo" section for examples of how to use the more flexible BeginCombo()/EndCombo() api.
-			const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIIIIII", "JJJJ", "KKKKKKK" };
-			static int item_current = 0;
-            if (ImGui::Combo("combo", &item_current, items, IM_ARRAYSIZE(items)))
-            {
-
-                printf("combox index :%d\r\n", item_current);
-            }
-
-		}
-
-
-        ImGui::ColorEdit4("Test Color", (float*)&color);
-
-        ImGui::End();
-
-
+        ImGui::DockSpaceOverViewport();
+        DrawGUI();
 
         ImGui::ShowDemoWindow();
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+             
+            auto backcontext = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backcontext);
+
+        }
+
+
 
         glfwSwapBuffers(gMainWindow);
         glfwPollEvents();
